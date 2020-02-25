@@ -1,7 +1,9 @@
 #ifndef LOGICS_H
 #define LOGICS_H
 
-#include <cstdio>
+#include <QDebug>
+
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -10,6 +12,8 @@
 
 using namespace std;
 
-//vector<vector<string>> readCSV(const string &path, const string &region, int init_year, int final_year);
+vector<vector<string>> readCSV(const string &path, const string &region, int init_year, int final_year);
+
+vector<string> splitStr(const string &str, const string &sep);
 
 #endif // LOGICS_H

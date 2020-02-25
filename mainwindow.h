@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include <string>
+#include <vector>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -20,8 +23,18 @@ private slots:
 
     void showRegionFields();
 
+    void showCalculationResults();
+
 private:
     Ui::MainWindow *ui;
+
+    std::vector<std::vector<std::string>> fields;
+
+    double getMinimum(int column);
+
+    double getMaximum(int column);
+
+    double getMedian(int column);
 
 };
 #endif // MAINWINDOW_H
