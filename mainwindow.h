@@ -18,7 +18,10 @@ public:
 private slots:
     void setPath();
 
+    void showRegionFields();
+
 private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H

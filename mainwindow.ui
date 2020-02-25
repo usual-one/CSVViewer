@@ -34,7 +34,7 @@
    <property name="whatsThis">
     <string/>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,0,1">
+   <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,0,1">
     <property name="spacing">
      <number>5</number>
     </property>
@@ -56,110 +56,125 @@
        <number>5</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="layout_found" stretch="3,1">
+       <layout class="QVBoxLayout" name="layout_path">
         <property name="spacing">
-         <number>5</number>
+         <number>1</number>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="layout_path">
+         <layout class="QHBoxLayout" name="layout_path_top">
           <property name="spacing">
-           <number>1</number>
+           <number>0</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="layout_path_top">
-            <property name="spacing">
-             <number>0</number>
+           <widget class="QLabel" name="lbl_path">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <item>
-             <widget class="QLabel" name="lbl_path">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Path to file</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="spacer_path">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>30</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btn_browse">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>90</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>90</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Browse...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="ln_path">
             <property name="minimumSize">
              <size>
-              <width>300</width>
+              <width>80</width>
               <height>30</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>16777215</width>
+              <width>80</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
+            <property name="text">
+             <string>Path to file</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="spacer_path">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>30</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_browse">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>90</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>90</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
+            <property name="text">
+             <string>Browse...</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item>
+         <widget class="QLineEdit" name="ln_path">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu</family>
+           </font>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="layout_criteria" stretch="2,2,0">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
          <layout class="QVBoxLayout" name="layout_region">
           <property name="spacing">
-           <number>1</number>
+           <number>0</number>
           </property>
           <item>
            <layout class="QHBoxLayout" name="layout_region_top">
@@ -186,6 +201,11 @@
                 <height>30</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
+              </property>
               <property name="text">
                <string>Region</string>
               </property>
@@ -207,8 +227,43 @@
               </property>
              </spacer>
             </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="ln_region">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="layout_years">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <layout class="QHBoxLayout" name="layout_years_top">
+            <property name="spacing">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QPushButton" name="btn_load">
+             <widget class="QLabel" name="lbl_years">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -217,39 +272,142 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>90</width>
+                <width>40</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>90</width>
+                <width>40</width>
                 <height>30</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
+              </property>
               <property name="text">
-               <string>Load data</string>
+               <string>Years</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="spacer_years">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="layout_years_bottom" stretch="0,0,0">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="ln_init_year">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_dash">
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="ln_final_year">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
               </property>
              </widget>
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QLineEdit" name="ln_region">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>30</height>
-             </size>
-            </property>
-           </widget>
-          </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_load">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>90</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>90</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Load data</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QTableView" name="tbl_found"/>
+       <widget class="QTableView" name="tbl_found">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -289,6 +447,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
             <property name="text">
              <string>Column</string>
             </property>
@@ -324,6 +487,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
             <property name="text">
              <string>Calculate metrics</string>
             </property>
@@ -339,12 +507,23 @@
             <height>30</height>
            </size>
           </property>
+          <property name="font">
+           <font>
+            <family>Ubuntu</family>
+           </font>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <widget class="QTableView" name="tbl_res"/>
+       <widget class="QTableView" name="tbl_res">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
