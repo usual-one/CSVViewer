@@ -75,6 +75,11 @@
                 <height>30</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
+              </property>
               <property name="text">
                <string>Path to file</string>
               </property>
@@ -115,6 +120,11 @@
                 <width>90</width>
                 <height>30</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
               </property>
               <property name="text">
                <string>Browse...</string>
@@ -171,6 +181,11 @@
                 <height>30</height>
                </size>
               </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
+              </property>
               <property name="text">
                <string>Region</string>
               </property>
@@ -211,6 +226,11 @@
                 <width>90</width>
                 <height>30</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Ubuntu</family>
+               </font>
               </property>
               <property name="text">
                <string>Load data</string>
@@ -274,6 +294,11 @@
               <height>30</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
+            </property>
             <property name="text">
              <string>Column</string>
             </property>
@@ -308,6 +333,11 @@
               <width>125</width>
               <height>30</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Ubuntu</family>
+             </font>
             </property>
             <property name="text">
              <string>Calculate metrics</string>
