@@ -32,11 +32,18 @@ void MainWindow::setPath() {
 void MainWindow::showRegionFields() {
     string path = ui->ln_path->text().toStdString();
     string region = ui->ln_region->text().toStdString();
-    int init_year = ui->ln_init_year->text().toInt() == 0 ? -1 : ui->ln_init_year->text().toInt();
-    int final_year = ui->ln_final_year->text().toInt() == 0 ? -1 : ui->ln_final_year->text().toInt();
-    fields = readCSV(path, region, init_year, final_year);
+    pair<int, int> years = {ui->ln_init_year->text().toInt(), ui->ln_final_year->text().toInt()};
+    pair<vector<string>, vector<vector<string>>> table = readCSV(path, region, years);
+    headers = table.first;
+    fields = table.second;
 
     QStandardItemModel *model = new QStandardItemModel;
+
+    QStringList horizontal_headers;
+    for (auto it = headers.begin(); it != headers.end(); it++) {
+        horizontal_headers.append(QString::fromStdString(*it));
+    }
+    model->setHorizontalHeaderLabels(horizontal_headers);
 
     for (size_t i = 0; i < fields.size(); i++) {
         for (size_t j = 0; j < fields.at(i).size(); j++) {
@@ -49,51 +56,16 @@ void MainWindow::showRegionFields() {
 
 void MainWindow::showCalculationResults()
 {
-    int column = ui->ln_column->text().toInt();
-    QStandardItemModel *model = new QStandardItemModel;
+    string column = ui->ln_column->text().toStdString();
 
+    QStandardItemModel *model = new QStandardItemModel;
+    model->setHorizontalHeaderLabels({"Metric", "Value"});
     model->setItem(0, 0, new QStandardItem("Minimum"));
     model->setItem(1, 0, new QStandardItem("Maximum"));
     model->setItem(2, 0, new QStandardItem("Median"));
-    model->setItem(0, 1, new QStandardItem(QString::number(getMinimum(column))));
-    model->setItem(1, 1, new QStandardItem(QString::number(getMaximum(column))));
-    model->setItem(2, 1, new QStandardItem(QString::number(getMedian(column))));
+    model->setItem(0, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, minimum))));
+    model->setItem(1, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, maximum))));
+    model->setItem(2, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, median))));
 
     ui->tbl_res->setModel(model);
-}
-
-double MainWindow::getMinimum(int column)
-{
-    vector<double> col;
-    for (size_t i = 0; i < fields.size(); i++) {
-        col.push_back(stold(fields.at(i).at(column - 1)));
-    }
-    sort(col.begin(), col.end());
-    return col[0];
-}
-
-double MainWindow::getMaximum(int column)
-{
-    vector<double> col;
-    for (size_t i = 0; i < fields.size(); i++) {
-        col.push_back(stold(fields.at(i).at(column - 1)));
-    }
-    sort(col.begin(), col.end());
-    return col[col.size() - 1];
-}
-
-double MainWindow::getMedian(int column)
-{
-    vector<double> col;
-    for (size_t i = 0; i < fields.size(); i++) {
-        col.push_back(stold(fields.at(i).at(column - 1)));
-    }
-    sort(col.begin(), col.end());
-    double result;
-    if (col.size() % 2 == 1) {
-        result = col[col.size() / 2];
-    } else {
-        result = (col[col.size() / 2] + col[col.size() / 2 - 1]) / 2;
-    }
-    return result;
 }

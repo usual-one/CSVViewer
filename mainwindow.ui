@@ -31,8 +31,17 @@
      <height>0</height>
     </size>
    </property>
+   <property name="font">
+    <font>
+     <family>Ubuntu</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
    <property name="whatsThis">
     <string/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,0,1">
     <property name="spacing">
@@ -88,6 +97,7 @@
             <property name="font">
              <font>
               <family>Ubuntu</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
@@ -134,6 +144,7 @@
             <property name="font">
              <font>
               <family>Ubuntu</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
@@ -160,6 +171,7 @@
           <property name="font">
            <font>
             <family>Ubuntu</family>
+            <pointsize>12</pointsize>
            </font>
           </property>
          </widget>
@@ -204,6 +216,7 @@
               <property name="font">
                <font>
                 <family>Ubuntu</family>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="text">
@@ -246,6 +259,7 @@
             <property name="font">
              <font>
               <family>Ubuntu</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
            </widget>
@@ -285,6 +299,7 @@
               <property name="font">
                <font>
                 <family>Ubuntu</family>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="text">
@@ -332,6 +347,7 @@
               <property name="font">
                <font>
                 <family>Ubuntu</family>
+                <pointsize>12</pointsize>
                </font>
               </property>
              </widget>
@@ -359,6 +375,7 @@
               <property name="font">
                <font>
                 <family>Ubuntu</family>
+                <pointsize>12</pointsize>
                </font>
               </property>
               <property name="text">
@@ -383,6 +400,7 @@
               <property name="font">
                <font>
                 <family>Ubuntu</family>
+                <pointsize>12</pointsize>
                </font>
               </property>
              </widget>
@@ -414,6 +432,7 @@
           <property name="font">
            <font>
             <family>Ubuntu</family>
+            <pointsize>12</pointsize>
            </font>
           </property>
           <property name="text">
@@ -428,6 +447,7 @@
         <property name="font">
          <font>
           <family>Ubuntu</family>
+          <pointsize>10</pointsize>
          </font>
         </property>
        </widget>
@@ -473,6 +493,7 @@
             <property name="font">
              <font>
               <family>Ubuntu</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
@@ -513,6 +534,7 @@
             <property name="font">
              <font>
               <family>Ubuntu</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
@@ -533,7 +555,11 @@
           <property name="font">
            <font>
             <family>Ubuntu</family>
+            <pointsize>12</pointsize>
            </font>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -544,6 +570,7 @@
         <property name="font">
          <font>
           <family>Ubuntu</family>
+          <pointsize>10</pointsize>
          </font>
         </property>
        </widget>

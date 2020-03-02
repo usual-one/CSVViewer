@@ -30,11 +30,6 @@ private:
 
     std::vector<std::vector<std::string>> fields;
 
-    double getMinimum(int column);
-
-    double getMaximum(int column);
-
-    double getMedian(int column);
-
+    std::vector<std::string> headers;
 };
 #endif // MAINWINDOW_H
