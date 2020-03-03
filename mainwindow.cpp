@@ -8,7 +8,7 @@
 
 #include "include/logics.h"
 
-#define ERROR_DISPLAYING_TIMEOUT 3
+#define ERROR_DISPLAYING_TIMEOUT 1000
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -39,27 +39,32 @@ void MainWindow::showRegionFields() {
     request_args.operation_type = LOAD_DATA;
     res_t response = exec_op(request_args);
 
+    QStandardItemModel *model = new QStandardItemModel;
+
     if (response.error_type == FILE_OPENING_ERROR) {
         ui->statusBar->showMessage("Cannot open the file", ERROR_DISPLAYING_TIMEOUT);
         return;
     }
     if (response.error_type == REGION_NOT_FOUND) {
         ui->statusBar->showMessage("No records with such region", ERROR_DISPLAYING_TIMEOUT);
+        ui->tbl_found->setModel(model);
         return;
     }
     if (response.error_type == YEARS_NOT_FOUND) {
         ui->statusBar->showMessage("No records with such years", ERROR_DISPLAYING_TIMEOUT);
+        ui->tbl_found->setModel(model);
         return;
     }
 
     vector<string> headers = response.headers;
     vector<vector<string>> fields = response.arr;
-    QStandardItemModel *model = new QStandardItemModel;
+
 
     QStringList horizontal_headers;
     for (auto it = headers.begin(); it != headers.end(); it++) {
         horizontal_headers.append(QString::fromStdString(*it));
     }
+
     model->setHorizontalHeaderLabels(horizontal_headers);
 
     for (size_t i = 0; i < fields.size(); i++) {

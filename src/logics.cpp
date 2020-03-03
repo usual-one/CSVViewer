@@ -50,24 +50,24 @@ static bool stringCmp(string str, string model) {
     return str == model;
 }
 
-static bool isValid(const vector<string> &record, const string &region, pair<int, int> years) {
+static err_t isValid(const vector<string> &record, const string &region, pair<int, int> years) {
     if (years.first != 0 || years.second != 0) {
         if (!record.at(0).size() || !isNumber(record.at(0))) {
-            return false;
+            return YEARS_NOT_FOUND;
         }
         if (!positiveNumberBetween(stoi(record.at(0)), years)) {
-            return false;
+            return YEARS_NOT_FOUND;
         }
     }
     if (region.size()) {
         if (!record.at(1).size()) {
-            return false;
+            return REGION_NOT_FOUND;
         }
         if (!stringCmp(record.at(1), region)) {
-            return false;
+            return REGION_NOT_FOUND;
         }
     }
-    return true;
+    return OK;
 }
 
 vector<string> splitStr(const string &str, const string &sep)
@@ -96,15 +96,21 @@ tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path,
 
     vector<vector<string>> records;
 
+    err_t error = OK;
     while (!fin.eof()) {
         getline(fin, received_str);
         vector<string> record = splitStr(received_str, ",");
         if (record.size() != headers.size()) {
             continue;
         }
-        if (isValid(record, region, years)) {
+
+        error = isValid(record, region, years);
+        if (!error) {
             records.push_back(record);
         }
+    }
+    if (!records.size()) {
+        return {error, {}, {}};
     }
     return {OK, headers, records};
 }
@@ -119,6 +125,13 @@ static size_t nameToInt(const vector<string> &names, const string &name)
 }
 
 pair<err_t, double> getMetrics(const string &column, metrics_t type) {
+    if (!FIELDS.size() || !HEADERS.size()) {
+        return {DATA_NOT_FOUND, 0};
+    }
+
+    if (!column.size()) {
+        return {WRONG_COLUMN_NAME, 0};
+    }
 
     int index = -1;
 
