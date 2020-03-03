@@ -8,6 +8,8 @@
 
 #include "include/logics.h"
 
+#define ERROR_DISPLAYING_TIMEOUT 3
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -30,13 +32,28 @@ void MainWindow::setPath() {
 
 
 void MainWindow::showRegionFields() {
-    string path = ui->ln_path->text().toStdString();
-    string region = ui->ln_region->text().toStdString();
-    pair<int, int> years = {ui->ln_init_year->text().toInt(), ui->ln_final_year->text().toInt()};
-    pair<vector<string>, vector<vector<string>>> table = readCSV(path, region, years);
-    headers = table.first;
-    fields = table.second;
+    op_args request_args = {};
+    request_args.path = ui->ln_path->text().toStdString();
+    request_args.region = ui->ln_region->text().toStdString();
+    request_args.years = {ui->ln_init_year->text().toInt(), ui->ln_final_year->text().toInt()};
+    request_args.operation_type = LOAD_DATA;
+    res_t response = exec_op(request_args);
 
+    if (response.error_type == FILE_OPENING_ERROR) {
+        ui->statusBar->showMessage("Cannot open the file", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+    if (response.error_type == REGION_NOT_FOUND) {
+        ui->statusBar->showMessage("No records with such region", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+    if (response.error_type == YEARS_NOT_FOUND) {
+        ui->statusBar->showMessage("No records with such years", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+
+    vector<string> headers = response.headers;
+    vector<vector<string>> fields = response.arr;
     QStandardItemModel *model = new QStandardItemModel;
 
     QStringList horizontal_headers;
@@ -56,16 +73,31 @@ void MainWindow::showRegionFields() {
 
 void MainWindow::showCalculationResults()
 {
-    string column = ui->ln_column->text().toStdString();
+    op_args request_args = {};
+    request_args.column = ui->ln_column->text().toStdString();
+    request_args.operation_type = CALCULATE_METRICS;
 
     QStandardItemModel *model = new QStandardItemModel;
     model->setHorizontalHeaderLabels({"Metric", "Value"});
     model->setItem(0, 0, new QStandardItem("Minimum"));
     model->setItem(1, 0, new QStandardItem("Maximum"));
     model->setItem(2, 0, new QStandardItem("Median"));
-    model->setItem(0, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, minimum))));
-    model->setItem(1, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, maximum))));
-    model->setItem(2, 1, new QStandardItem(QString::number(getMetrics(fields, headers, column, median))));
+
+    request_args.metrics_type = MIN;
+    res_t response = exec_op(request_args);
+    if (response.error_type == DATA_NOT_FOUND) {
+        ui->statusBar->showMessage("Data is not loaded", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+    if (response.error_type == WRONG_COLUMN_NAME) {
+        ui->statusBar->showMessage("Such column does not exist", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+    model->setItem(0, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
+    request_args.metrics_type = MAX;
+    model->setItem(1, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
+    request_args.metrics_type = MEDIAN;
+    model->setItem(2, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
 
     ui->tbl_res->setModel(model);
 }

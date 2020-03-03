@@ -1,5 +1,32 @@
 #include "../include/logics.h"
 
+vector<string> HEADERS = {};
+vector<vector<string>> FIELDS = {};
+
+res_t exec_op(op_args args) {
+    res_t results = {};
+    switch (args.operation_type) {
+    case LOAD_DATA: {
+        auto csv = readCSV(args.path, args.region, args.years);
+        results.error_type = get<0>(csv);
+        HEADERS = results.headers = get<1>(csv);
+        FIELDS = results.arr = get<2>(csv);
+        break;
+    }
+    case CALCULATE_METRICS: {
+        auto metrics = getMetrics(args.column, args.metrics_type);
+        results.error_type = metrics.first;
+        results.metric = metrics.second;
+        break;
+    }
+    default: {
+        results.error_type = BAD_CODE;
+        break;
+    }
+    }
+    return results;
+}
+
 static bool isNumber(const string &str) {
     for (auto it = str.begin(); it != str.end(); it++) {
         if (!isspace(*it) && !isdigit(*it) && *it != '.' && *it != '-') {
@@ -57,10 +84,10 @@ vector<string> splitStr(const string &str, const string &sep)
     return arr;
 }
 
-pair<vector<string>, vector<vector<string>>> readCSV(const string &path, const string &region, pair<int, int> years) {
+tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path, const string &region, pair<int, int> years) {
     ifstream fin(path);
     if (!fin.is_open()) {
-        return {};
+        return {FILE_OPENING_ERROR, {}, {}};
     }
 
     string received_str;
@@ -79,7 +106,7 @@ pair<vector<string>, vector<vector<string>>> readCSV(const string &path, const s
             records.push_back(record);
         }
     }
-    return {headers, records};
+    return {OK, headers, records};
 }
 
 static size_t nameToInt(const vector<string> &names, const string &name)
@@ -91,23 +118,23 @@ static size_t nameToInt(const vector<string> &names, const string &name)
     return distance(names.begin(), it);
 }
 
-double getMetrics(const vector<vector<string>> &arr, const vector<string> &names, const string &column, metrics_t type) {
+pair<err_t, double> getMetrics(const string &column, metrics_t type) {
 
     int index = -1;
 
     if (isNumber(column)) {
         index = stoi(column);
     } else {
-        index = nameToInt(names, column);
+        index = nameToInt(HEADERS, column);
     }
 
-    if (index < 0 || index >= (int) arr.size()) {
-        return -1;
+    if (index < 0 || index >= (int) FIELDS.size()) {
+        return {WRONG_COLUMN_NAME, 0};
     }
 
     vector<double> col;
 
-    for (auto it = arr.begin(); it != arr.end(); it++) {
+    for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
         if (!(*it).at(index).size()) {
             continue;
         }
@@ -117,18 +144,18 @@ double getMetrics(const vector<vector<string>> &arr, const vector<string> &names
     }
 
     if (!col.size()) {
-        return -1;
+        return {COLUMN_IS_EMPTY, 0};
     }
 
     switch (type) {
-    case minimum:
-        return getMinimum(col);
-    case maximum:
-        return getMaximum(col);
-    case median:
-        return getMedian(col);
+    case MIN:
+        return {OK, getMinimum(col)};
+    case MAX:
+        return {OK, getMaximum(col)};
+    case MEDIAN:
+        return {OK, getMedian(col)};
     default:
-        return -1;
+        return {BAD_CODE, 0};
     }
 }
 

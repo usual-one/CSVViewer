@@ -27,9 +27,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    std::vector<std::vector<std::string>> fields;
-
-    std::vector<std::string> headers;
 };
 #endif // MAINWINDOW_H
