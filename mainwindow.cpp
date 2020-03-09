@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setlocale(LC_ALL, "C");
 
     connect(ui->btn_browse, SIGNAL(clicked()), this, SLOT(setPath()));
     connect(ui->btn_load, SIGNAL(clicked()), this, SLOT(showRegionFields()));
@@ -96,6 +97,10 @@ void MainWindow::showCalculationResults()
     }
     if (response.error_type == WRONG_COLUMN_NAME) {
         ui->statusBar->showMessage("Such column does not exist", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
+    if (response.error_type == INVALID_COLUMN_VALUES) {
+        ui->statusBar->showMessage("Invalid column values", ERROR_DISPLAYING_TIMEOUT);
         return;
     }
     model->setItem(0, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));

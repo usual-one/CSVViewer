@@ -29,8 +29,9 @@ enum err_t {
     YEARS_NOT_FOUND = 3,
     WRONG_COLUMN_NAME = 4,
     COLUMN_IS_EMPTY = 5,
-    DATA_NOT_FOUND = 6,
-    BAD_CODE = 7
+    INVALID_COLUMN_VALUES = 6,
+    DATA_NOT_FOUND = 7,
+    BAD_CODE = 8
 };
 
 typedef struct {
@@ -55,7 +56,7 @@ tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path,
 
 vector<string> splitStr(const string &str, const string &sep);
 
-pair<err_t, double> getMetrics(const string &column, metrics_t type);
+tuple<err_t, double> getMetrics(const string &column, metrics_t type);
 
 double getMinimum(const vector<double> &arr);
 

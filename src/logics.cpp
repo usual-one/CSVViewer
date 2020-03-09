@@ -1,5 +1,7 @@
 #include "../include/logics.h"
 
+#include <cstdlib>
+
 vector<string> HEADERS = {};
 vector<vector<string>> FIELDS = {};
 
@@ -15,8 +17,8 @@ res_t exec_op(op_args args) {
     }
     case CALCULATE_METRICS: {
         auto metrics = getMetrics(args.column, args.metrics_type);
-        results.error_type = metrics.first;
-        results.metric = metrics.second;
+        results.error_type = get<0>(metrics);
+        results.metric = get<1>(metrics);
         break;
     }
     default: {
@@ -124,7 +126,7 @@ static size_t nameToInt(const vector<string> &names, const string &name)
     return distance(names.begin(), it);
 }
 
-pair<err_t, double> getMetrics(const string &column, metrics_t type) {
+tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
     if (!FIELDS.size() || !HEADERS.size()) {
         return {DATA_NOT_FOUND, 0};
     }
@@ -146,20 +148,20 @@ pair<err_t, double> getMetrics(const string &column, metrics_t type) {
     }
 
     vector<double> col;
-
     for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
         if (!(*it).at(index).size()) {
             continue;
         }
         if (isNumber((*it).at(index))) {
             col.push_back(stod((*it).at(index)));
+        } else {
+            return {INVALID_COLUMN_VALUES, 0};
         }
     }
 
     if (!col.size()) {
         return {COLUMN_IS_EMPTY, 0};
     }
-
     switch (type) {
     case MIN:
         return {OK, getMinimum(col)};
