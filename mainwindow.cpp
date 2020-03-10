@@ -11,9 +11,7 @@
 #define ERROR_DISPLAYING_TIMEOUT 1000
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
+        : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
     setlocale(LC_ALL, "C");
 
@@ -27,7 +25,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::setPath() {
-    QString file_path = QFileDialog::getOpenFileName(this, "../lw-2/resource", "../lw-2/resource", tr("CSV tables (*.csv)"));
+    QString file_path = QFileDialog::getOpenFileName(this, "../lw-2/resource", "../lw-2/resource",
+                                                     tr("CSV tables (*.csv)"));
     ui->ln_path->setText(file_path);
 }
 
@@ -57,8 +56,8 @@ void MainWindow::showRegionFields() {
         return;
     }
 
-    vector<string> headers = response.headers;
-    vector<vector<string>> fields = response.arr;
+    vector <string> headers = response.headers;
+    vector <vector<string>> fields = response.arr;
 
 
     QStringList horizontal_headers;
@@ -77,8 +76,7 @@ void MainWindow::showRegionFields() {
     ui->tbl_found->setModel(model);
 }
 
-void MainWindow::showCalculationResults()
-{
+void MainWindow::showCalculationResults() {
     op_args request_args = {};
     request_args.column = ui->ln_column->text().toStdString();
     request_args.operation_type = CALCULATE_METRICS;

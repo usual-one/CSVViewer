@@ -2,33 +2,33 @@
 
 #include <cstdlib>
 
-vector<string> HEADERS = {};
-vector<vector<string>> FIELDS = {};
+vector <string> HEADERS = {};
+vector <vector<string>> FIELDS = {};
 
 res_t exec_op(op_args args) {
     res_t results = {};
     switch (args.operation_type) {
-    case LOAD_DATA: {
-        auto csv = readCSV(args.path, args.region, args.years);
-        results.error_type = get<0>(csv);
-        HEADERS = results.headers = get<1>(csv);
-        FIELDS = results.arr = get<2>(csv);
-        break;
-    }
-    case CALCULATE_METRICS: {
-        auto metrics = getMetrics(args.column, MIN);
-        results.metrics.push_back(get<1>(metrics));
-        metrics = getMetrics(args.column, MAX);
-        results.metrics.push_back(get<1>(metrics));
-        metrics = getMetrics(args.column, MEDIAN);
-        results.metrics.push_back(get<1>(metrics));
-        results.error_type = get<0>(metrics);
-        break;
-    }
-    default: {
-        results.error_type = BAD_CODE;
-        break;
-    }
+        case LOAD_DATA: {
+            auto csv = readCSV(args.path, args.region, args.years);
+            results.error_type = get<0>(csv);
+            HEADERS = results.headers = get<1>(csv);
+            FIELDS = results.arr = get<2>(csv);
+            break;
+        }
+        case CALCULATE_METRICS: {
+            auto metrics = getMetrics(args.column, MIN);
+            results.metrics.push_back(get<1>(metrics));
+            metrics = getMetrics(args.column, MAX);
+            results.metrics.push_back(get<1>(metrics));
+            metrics = getMetrics(args.column, MEDIAN);
+            results.metrics.push_back(get<1>(metrics));
+            results.error_type = get<0>(metrics);
+            break;
+        }
+        default: {
+            results.error_type = BAD_CODE;
+            break;
+        }
     }
     return results;
 }
@@ -56,7 +56,7 @@ static bool stringCmp(string str, string model) {
     return str == model;
 }
 
-static err_t isValid(const vector<string> &record, const string &region, pair<int, int> years) {
+static err_t isValid(const vector <string> &record, const string &region, pair<int, int> years) {
     if (years.first != 0 || years.second != 0) {
         if (!record.at(0).size() || !isNumber(record.at(0))) {
             return YEARS_NOT_FOUND;
@@ -76,9 +76,8 @@ static err_t isValid(const vector<string> &record, const string &region, pair<in
     return OK;
 }
 
-vector<string> splitStr(const string &str, const string &sep)
-{
-    vector<string> arr;
+vector <string> splitStr(const string &str, const string &sep) {
+    vector <string> arr;
     size_t prev = 0;
     size_t next;
     size_t delta = sep.length();
@@ -90,7 +89,9 @@ vector<string> splitStr(const string &str, const string &sep)
     return arr;
 }
 
-tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path, const string &region, pair<int, int> years) {
+tuple <err_t, vector<string>, vector<vector < string>>>
+
+readCSV(const string &path, const string &region, pair<int, int> years) {
     ifstream fin(path);
     if (!fin.is_open()) {
         return {FILE_OPENING_ERROR, {}, {}};
@@ -98,14 +99,14 @@ tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path,
 
     string received_str;
     getline(fin, received_str);
-    vector<string> headers = splitStr(received_str, ",");
+    vector <string> headers = splitStr(received_str, ",");
 
-    vector<vector<string>> records;
+    vector <vector<string>> records;
 
     err_t error = OK;
     while (!fin.eof()) {
         getline(fin, received_str);
-        vector<string> record = splitStr(received_str, ",");
+        vector <string> record = splitStr(received_str, ",");
         if (record.size() != headers.size()) {
             continue;
         }
@@ -121,8 +122,7 @@ tuple<err_t, vector<string>, vector<vector<string>>> readCSV(const string &path,
     return {OK, headers, records};
 }
 
-static size_t nameToInt(const vector<string> &names, const string &name)
-{
+static size_t nameToInt(const vector <string> &names, const string &name) {
     auto it = find(names.begin(), names.end(), name);
     if (it == names.end()) {
         return -1;
@@ -130,7 +130,7 @@ static size_t nameToInt(const vector<string> &names, const string &name)
     return distance(names.begin(), it);
 }
 
-static vector<double> svectorTodvector(const vector<string> &s_vec) {
+static vector<double> svectorTodvector(const vector <string> &s_vec) {
     vector<double> d_vec;
     for (auto it = s_vec.begin(); it != s_vec.end(); it++) {
         if (!(*it).size()) {
@@ -166,7 +166,7 @@ tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
         return {WRONG_COLUMN_NAME, 0};
     }
 
-    vector<string> s_col;
+    vector <string> s_col;
     for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
         if ((*it).at(index).size()) {
             s_col.push_back((*it).at(index));
@@ -182,14 +182,14 @@ tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
     }
 
     switch (type) {
-    case MIN:
-        return {OK, getMinimum(d_col)};
-    case MAX:
-        return {OK, getMaximum(d_col)};
-    case MEDIAN:
-        return {OK, getMedian(d_col)};
-    default:
-        return {BAD_CODE, 0};
+        case MIN:
+            return {OK, getMinimum(d_col)};
+        case MAX:
+            return {OK, getMaximum(d_col)};
+        case MEDIAN:
+            return {OK, getMedian(d_col)};
+        default:
+            return {BAD_CODE, 0};
     }
 }
 
