@@ -16,9 +16,13 @@ res_t exec_op(op_args args) {
         break;
     }
     case CALCULATE_METRICS: {
-        auto metrics = getMetrics(args.column, args.metrics_type);
+        auto metrics = getMetrics(args.column, MIN);
+        results.metrics.push_back(get<1>(metrics));
+        metrics = getMetrics(args.column, MAX);
+        results.metrics.push_back(get<1>(metrics));
+        metrics = getMetrics(args.column, MEDIAN);
+        results.metrics.push_back(get<1>(metrics));
         results.error_type = get<0>(metrics);
-        results.metric = get<1>(metrics);
         break;
     }
     default: {

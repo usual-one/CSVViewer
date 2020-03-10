@@ -40,14 +40,13 @@ typedef struct {
     string region;
     pair<int, int> years;
     string column;
-    metrics_t metrics_type;
 } op_args;
 
 typedef struct {
     err_t error_type;
     vector<vector<string>> arr;
     vector<string> headers;
-    double metric;
+    vector<double> metrics;
 } res_t;
 
 res_t exec_op(op_args args);

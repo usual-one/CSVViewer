@@ -89,7 +89,6 @@ void MainWindow::showCalculationResults()
     model->setItem(1, 0, new QStandardItem("Maximum"));
     model->setItem(2, 0, new QStandardItem("Median"));
 
-    request_args.metrics_type = MIN;
     res_t response = exec_op(request_args);
     if (response.error_type == DATA_NOT_FOUND) {
         ui->statusBar->showMessage("Data is not loaded", ERROR_DISPLAYING_TIMEOUT);
@@ -107,11 +106,9 @@ void MainWindow::showCalculationResults()
         ui->statusBar->showMessage("Column is empty", ERROR_DISPLAYING_TIMEOUT);
         return;
     }
-    model->setItem(0, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
-    request_args.metrics_type = MAX;
-    model->setItem(1, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
-    request_args.metrics_type = MEDIAN;
-    model->setItem(2, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
+    model->setItem(0, 1, new QStandardItem(QString::number(response.metrics.at(0))));
+    model->setItem(1, 1, new QStandardItem(QString::number(response.metrics.at(1))));
+    model->setItem(2, 1, new QStandardItem(QString::number(response.metrics.at(2))));
 
     ui->tbl_res->setModel(model);
 }
