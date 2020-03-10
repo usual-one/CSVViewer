@@ -183,8 +183,10 @@ double getMaximum(const vector<double> &arr) {
 }
 
 double getMedian(const vector<double> &arr) {
-    if (arr.size() % 2 == 1) {
-        return arr.at(arr.size() / 2);
+    vector<double> tmp_arr(arr);
+    sort(tmp_arr.begin(), tmp_arr.end());
+    if (tmp_arr.size() % 2 == 1) {
+        return tmp_arr.at(tmp_arr.size() / 2);
     }
-    return (arr.at(arr.size() / 2) + arr.at(arr.size() / 2 - 1)) / 2;
+    return (tmp_arr.at(tmp_arr.size() / 2) + tmp_arr.at(tmp_arr.size() / 2 - 1)) / 2;
 }
