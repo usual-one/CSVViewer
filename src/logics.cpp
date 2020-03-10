@@ -126,6 +126,21 @@ static size_t nameToInt(const vector<string> &names, const string &name)
     return distance(names.begin(), it);
 }
 
+static vector<double> svectorTodvector(const vector<string> &s_vec) {
+    vector<double> d_vec;
+    for (auto it = s_vec.begin(); it != s_vec.end(); it++) {
+        if (!(*it).size()) {
+            continue;
+        }
+        if (isNumber(*it)) {
+            d_vec.push_back(stod(*it));
+        } else {
+            return {};
+        }
+    }
+    return d_vec;
+}
+
 tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
     if (!FIELDS.size() || !HEADERS.size()) {
         return {DATA_NOT_FOUND, 0};
@@ -143,32 +158,32 @@ tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
         index = nameToInt(HEADERS, column);
     }
 
-    if (index < 0 || index >= (int) FIELDS.size()) {
+    if (index < 0 || index >= (int) HEADERS.size()) {
         return {WRONG_COLUMN_NAME, 0};
     }
 
-    vector<double> col;
+    vector<string> s_col;
     for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
-        if (!(*it).at(index).size()) {
-            continue;
-        }
-        if (isNumber((*it).at(index))) {
-            col.push_back(stod((*it).at(index)));
-        } else {
-            return {INVALID_COLUMN_VALUES, 0};
+        if ((*it).at(index).size()) {
+            s_col.push_back((*it).at(index));
         }
     }
-
-    if (!col.size()) {
+    if (!s_col.size()) {
         return {COLUMN_IS_EMPTY, 0};
     }
+
+    vector<double> d_col = svectorTodvector(s_col);
+    if (!d_col.size()) {
+        return {INVALID_COLUMN_VALUES, 0};
+    }
+
     switch (type) {
     case MIN:
-        return {OK, getMinimum(col)};
+        return {OK, getMinimum(d_col)};
     case MAX:
-        return {OK, getMaximum(col)};
+        return {OK, getMaximum(d_col)};
     case MEDIAN:
-        return {OK, getMedian(col)};
+        return {OK, getMedian(d_col)};
     default:
         return {BAD_CODE, 0};
     }

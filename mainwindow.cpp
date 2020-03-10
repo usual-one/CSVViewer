@@ -103,6 +103,10 @@ void MainWindow::showCalculationResults()
         ui->statusBar->showMessage("Invalid column values", ERROR_DISPLAYING_TIMEOUT);
         return;
     }
+    if (response.error_type == COLUMN_IS_EMPTY) {
+        ui->statusBar->showMessage("Column is empty", ERROR_DISPLAYING_TIMEOUT);
+        return;
+    }
     model->setItem(0, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
     request_args.metrics_type = MAX;
     model->setItem(1, 1, new QStandardItem(QString::number(exec_op(request_args).metric)));
