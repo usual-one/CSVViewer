@@ -1,7 +1,7 @@
 #include "include/logics/logics.h"
 
-#include <cstdlib>
 #include <algorithm>
+#include <fstream>
 
 vector <string> HEADERS = {};
 vector <vector<string>> FIELDS = {};
@@ -53,24 +53,20 @@ static bool positiveNumberBetween(int number, pair<int, int> years) {
     return years.first <= number && number <= years.second;
 }
 
-static bool stringCmp(string str, string model) {
-    return str == model;
-}
-
 static err_t isValid(const vector <string> &record, const string &region, pair<int, int> years) {
     if (years.first != 0 || years.second != 0) {
-        if (!record.at(0).size() || !isNumber(record.at(0))) {
+        if (!record[0].size() || !isNumber(record[0])) {
             return YEARS_NOT_FOUND;
         }
-        if (!positiveNumberBetween(stoi(record.at(0)), years)) {
+        if (!positiveNumberBetween(stoi(record[0]), years)) {
             return YEARS_NOT_FOUND;
         }
     }
     if (region.size()) {
-        if (!record.at(1).size()) {
+        if (!record[1].size()) {
             return REGION_NOT_FOUND;
         }
-        if (!stringCmp(record.at(1), region)) {
+        if (record[1] != region) {
             return REGION_NOT_FOUND;
         }
     }
@@ -167,8 +163,8 @@ tuple <err_t, double> getMetrics(const string &column, metrics_t type) {
 
     vector <string> s_col;
     for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
-        if ((*it).at(index).size()) {
-            s_col.push_back((*it).at(index));
+        if ((*it)[index].size()) {
+            s_col.push_back((*it)[index]);
         }
     }
     if (!s_col.size()) {
@@ -204,7 +200,7 @@ double getMedian(const vector <double> &arr) {
     vector <double> tmp_arr(arr);
     sort(tmp_arr.begin(), tmp_arr.end());
     if (tmp_arr.size() % 2 == 1) {
-        return tmp_arr.at(tmp_arr.size() / 2);
+        return tmp_arr[tmp_arr.size() / 2];
     }
-    return (tmp_arr.at(tmp_arr.size() / 2) + tmp_arr.at(tmp_arr.size() / 2 - 1)) / 2;
+    return (tmp_arr[tmp_arr.size() / 2] + tmp_arr[tmp_arr.size() / 2 - 1]) / 2;
 }

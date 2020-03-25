@@ -1,7 +1,6 @@
 #ifndef LOGICS_H
 #define LOGICS_H
 
-#include <fstream>
 #include <string>
 #include <vector>
 #include <utility>
