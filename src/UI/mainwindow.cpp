@@ -1,12 +1,10 @@
-#include "mainwindow.h"
+#include "include/UI/mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QFileDialog>
 #include <QStandardItemModel>
 
-#include <QDebug>
-
-#include "include/logics.h"
+#include "include/logics/logics.h"
 
 #define ERROR_DISPLAYING_TIMEOUT 1000
 

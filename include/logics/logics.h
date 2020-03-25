@@ -1,8 +1,6 @@
 #ifndef LOGICS_H
 #define LOGICS_H
 
-#include <QDebug>
-
 #include <fstream>
 #include <string>
 #include <vector>

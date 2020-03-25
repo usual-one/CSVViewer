@@ -1,6 +1,7 @@
-#include "../include/logics.h"
+#include "include/logics/logics.h"
 
 #include <cstdlib>
+#include <algorithm>
 
 vector <string> HEADERS = {};
 vector <vector<string>> FIELDS = {};
