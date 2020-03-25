@@ -89,9 +89,7 @@ vector <string> splitStr(const string &str, const string &sep) {
     return arr;
 }
 
-tuple <err_t, vector<string>, vector<vector < string>>>
-
-readCSV(const string &path, const string &region, pair<int, int> years) {
+tuple <err_t, vector <string>, vector <vector <string>>> readCSV(const string &path, const string &region, pair<int, int> years) {
     ifstream fin(path);
     if (!fin.is_open()) {
         return {FILE_OPENING_ERROR, {}, {}};
@@ -101,7 +99,7 @@ readCSV(const string &path, const string &region, pair<int, int> years) {
     getline(fin, received_str);
     vector <string> headers = splitStr(received_str, ",");
 
-    vector <vector<string>> records;
+    vector <vector <string>> records;
 
     err_t error = OK;
     while (!fin.eof()) {
@@ -130,8 +128,8 @@ static size_t nameToInt(const vector <string> &names, const string &name) {
     return distance(names.begin(), it);
 }
 
-static vector<double> svectorTodvector(const vector <string> &s_vec) {
-    vector<double> d_vec;
+static vector <double> svectorTodvector(const vector <string> &s_vec) {
+    vector <double> d_vec;
     for (auto it = s_vec.begin(); it != s_vec.end(); it++) {
         if (!(*it).size()) {
             continue;
@@ -145,7 +143,7 @@ static vector<double> svectorTodvector(const vector <string> &s_vec) {
     return d_vec;
 }
 
-tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
+tuple <err_t, double> getMetrics(const string &column, metrics_t type) {
     if (!FIELDS.size() || !HEADERS.size()) {
         return {DATA_NOT_FOUND, 0};
     }
@@ -176,7 +174,7 @@ tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
         return {COLUMN_IS_EMPTY, 0};
     }
 
-    vector<double> d_col = svectorTodvector(s_col);
+    vector <double> d_col = svectorTodvector(s_col);
     if (!d_col.size()) {
         return {INVALID_COLUMN_VALUES, 0};
     }
@@ -193,16 +191,16 @@ tuple<err_t, double> getMetrics(const string &column, metrics_t type) {
     }
 }
 
-double getMinimum(const vector<double> &arr) {
+double getMinimum(const vector <double> &arr) {
     return *min_element(arr.begin(), arr.end());
 }
 
-double getMaximum(const vector<double> &arr) {
+double getMaximum(const vector <double> &arr) {
     return *max_element(arr.begin(), arr.end());
 }
 
-double getMedian(const vector<double> &arr) {
-    vector<double> tmp_arr(arr);
+double getMedian(const vector <double> &arr) {
+    vector <double> tmp_arr(arr);
     sort(tmp_arr.begin(), tmp_arr.end());
     if (tmp_arr.size() % 2 == 1) {
         return tmp_arr.at(tmp_arr.size() / 2);
