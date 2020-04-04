@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <fstream>
 
-vector <string> HEADERS = {};
-vector <vector<string>> FIELDS = {};
+vector <string> g_headers = {};
+vector <vector<string>> g_fields = {};
 
 res_t exec_op(op_args args) {
     res_t results = {};
@@ -12,8 +12,8 @@ res_t exec_op(op_args args) {
         case LOAD_DATA: {
             auto csv = readCSV(args.path, args.region, args.years);
             results.error_type = get<0>(csv);
-            HEADERS = results.headers = get<1>(csv);
-            FIELDS = results.arr = get<2>(csv);
+            g_headers = results.headers = get<1>(csv);
+            g_fields = results.arr = get<2>(csv);
             break;
         }
         case CALCULATE_METRICS: {
@@ -141,7 +141,7 @@ static vector <double> svectorTodvector(const vector <string> &s_vec) {
 }
 
 tuple <err_t, double> getMetrics(const string &column, metrics_t type) {
-    if (!FIELDS.size() || !HEADERS.size()) {
+    if (!g_fields.size() || !g_headers.size()) {
         return {DATA_NOT_FOUND, 0};
     }
 
@@ -154,15 +154,15 @@ tuple <err_t, double> getMetrics(const string &column, metrics_t type) {
     if (isNumber(column)) {
         index = stoi(column);
     } else {
-        index = nameToInt(HEADERS, column);
+        index = nameToInt(g_headers, column);
     }
 
-    if (index < 0 || index >= (int) HEADERS.size()) {
+    if (index < 0 || index >= (int) g_headers.size()) {
         return {WRONG_COLUMN_NAME, 0};
     }
 
     vector <string> s_col;
-    for (auto it = FIELDS.begin(); it != FIELDS.end(); it++) {
+    for (auto it = g_fields.begin(); it != g_fields.end(); it++) {
         if ((*it)[index].size()) {
             s_col.push_back((*it)[index]);
         }
