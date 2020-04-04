@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <utility>
-#include <tuple>
 
 using namespace std;
 
@@ -47,17 +46,5 @@ typedef struct {
 } res_t;
 
 res_t exec_op(op_args args);
-
-tuple <err_t, vector<string>, vector<vector<string>>> readCSV(const string &path, const string &region, pair<int, int> years);
-
-vector <string> splitStr(const string &str, const string &sep);
-
-tuple <err_t, double> getMetrics(const string &column, metrics_t type);
-
-double getMinimum(const vector<double> &arr);
-
-double getMaximum(const vector<double> &arr);
-
-double getMedian(const vector<double> &arr);
 
 #endif // LOGICS_H

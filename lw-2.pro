@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     src/UI/mainwindow.cpp \
-    src/logics/logics.cpp
+    src/logics/logics.cpp \
+    src/logics/logics_utils.cpp
 
 HEADERS += \
     include/logics/logics.h \
-    include/UI/mainwindow.h
+    include/UI/mainwindow.h \
+    include/logics/logics_utils.h
 
 FORMS += \
     mainwindow.ui
