@@ -43,7 +43,7 @@ static bool isNumber(const string &str) {
     return true;
 }
 
-static bool positiveNumberBetween(int number, pair<int, int> years) {
+static bool isNumberBetweenPair(int number, pair<int, int> years) {
     if (!years.first) {
         return number <= years.second;
     }
@@ -58,7 +58,7 @@ static err_t isValid(const vector <string> &record, const string &region, pair<i
         if (!record[0].size() || !isNumber(record[0])) {
             return YEARS_NOT_FOUND;
         }
-        if (!positiveNumberBetween(stoi(record[0]), years)) {
+        if (!isNumberBetweenPair(stoi(record[0]), years)) {
             return YEARS_NOT_FOUND;
         }
     }
